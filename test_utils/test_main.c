@@ -1444,6 +1444,12 @@ assertion_file_mode(const char *file, int line, const char *pathname, int expect
 		r = lstat(pathname, &st);
 		mode = (int)(st.st_mode & 0777);
 	}
+#if defined(__OS2__)
+	/*
+	 * On OS/2, mode does not work.
+	 */
+	mode = expected_mode;
+#endif
 	if (r == 0 && mode == expected_mode)
 			return (1);
 	failure_start(file, line, "File %s has mode %o, expected %o",
@@ -1574,7 +1580,7 @@ assertion_is_reg(const char *file, int line, const char *pathname, int mode)
 	struct stat st;
 	int r;
 
-#if defined(_WIN32) && !defined(__CYGWIN__)
+#if (defined(_WIN32) && !defined(__CYGWIN__)) || defined(__OS2__)
 	(void)mode; /* UNUSED */
 #endif
 	assertion_count(file, line);
@@ -1584,7 +1590,7 @@ assertion_is_reg(const char *file, int line, const char *pathname, int mode)
 		failure_finish(NULL);
 		return (0);
 	}
-#if !defined(_WIN32) || defined(__CYGWIN__)
+#if (!defined(_WIN32) || defined(__CYGWIN__)) && !defined(__OS2__)
 	/* Windows doesn't handle permissions the same way as POSIX,
 	 * so just ignore the mode tests. */
 	/* TODO: Can we do better here? */
@@ -1672,10 +1678,14 @@ assertion_make_dir(const char *file, int line, const char *dirname, int mode)
 		return (1);
 #else
 	if (0 == mkdir(dirname, mode)) {
+#if !defined(__OS2__)
 		if (0 == chmod(dirname, mode)) {
 			assertion_file_mode(file, line, dirname, mode);
 			return (1);
 		}
+#else
+		return (1);
+#endif
 	}
 #endif
 	failure_start(file, line, "Could not create directory %s", dirname);
@@ -1688,7 +1698,7 @@ int
 assertion_make_file(const char *file, int line,
     const char *path, int mode, int csize, const void *contents)
 {
-#if defined(_WIN32) && !defined(__CYGWIN__)
+#if (defined(_WIN32) && !defined(__CYGWIN__)) || defined(__OS2__)
 	/* TODO: Rework this to set file mode as well. */
 	FILE *f;
 	(void)mode; /* UNUSED */
