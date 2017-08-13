@@ -1097,6 +1097,10 @@ canonical_charset_name(const char *charset)
 	if (strcmp(cs, "UTF-8") == 0 ||
 	    strcmp(cs, "UTF8") == 0)
 		return ("UTF-8");
+#if defined(__OS2__)
+	if (strcmp(cs, "IBM-1208") == 0)
+		return ("UTF-8");
+#endif
 	if (strcmp(cs, "UTF-16BE") == 0 ||
 	    strcmp(cs, "UTF16BE") == 0)
 		return ("UTF-16BE");
@@ -1239,6 +1243,20 @@ create_sconv_object(const char *fc, const char *tc,
 	   !(flag & (SCONV_FROM_UTF16 | SCONV_FROM_UTF8)) &&
 	    (flag & SCONV_TO_UTF8))
 		flag |= SCONV_NORMALIZATION_D;
+#endif
+
+#if defined(__OS2__) && !defined(iconv_open)
+	/*
+	 * OS/2 kLIBC iconv() does not support UTF-16 but UCS-2.
+	 */
+	if (strcmp(tc, "UTF-16BE") == 0)
+		tc = "UCS-2BE";
+	else if (strcmp(tc, "UTF-16LE") == 0)
+		tc = "UCS-2LE";
+	if (strcmp(fc, "UTF-16BE") == 0)
+		fc = "UCS-2BE";
+	else if (strcmp(fc, "UTF-16LE") == 0)
+		fc = "UCS-2LE";
 #endif
 
 #if defined(HAVE_ICONV)
