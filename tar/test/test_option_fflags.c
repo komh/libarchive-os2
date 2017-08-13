@@ -28,7 +28,7 @@ __FBSDID("$FreeBSD$");
 static void
 clear_fflags(const char *pathname)
 {
-#if defined(HAVE_STRUCT_STAT_ST_FLAGS)
+#if defined(HAVE_STRUCT_STAT_ST_FLAGS) && !defined(__OS2__)
 	chflags(pathname, 0);
 #elif (defined(FS_IOC_GETFLAGS) && defined(HAVE_WORKING_FS_IOC_GETFLAGS)) || \
       (defined(EXT2_IOC_GETFLAGS) && defined(HAVE_WORKING_EXT2_IOC_GETFLAGS))
