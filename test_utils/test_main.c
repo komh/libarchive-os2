@@ -3681,9 +3681,15 @@ main(int argc, char **argv)
 
 	{
 		char *testprg;
-#if defined(_WIN32) && !defined(__CYGWIN__)
+#if (defined(_WIN32) && !defined(__CYGWIN__)) || defined(__OS2__)
 		/* Command.com sometimes rejects '/' separators. */
+#if !defined(__OS2__)
 		testprg = strdup(testprogfile);
+#else
+		testprg = malloc(strlen(testprogfile) + 4/*.exe*/ + 1/*nul*/);
+		strcpy(testprg, testprogfile);
+		_defext(testprg, "exe");
+#endif
 		for (i = 0; testprg[i] != '\0'; i++) {
 			if (testprg[i] == '/')
 				testprg[i] = '\\';
