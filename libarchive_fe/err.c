@@ -57,7 +57,15 @@ lafe_setprogname(const char *name, const char *defaultname)
 
 	if (name == NULL)
 		name = defaultname;
-#if defined(_WIN32) && !defined(__CYGWIN__)
+#if defined(__OS2__)
+	/* Remove .exe. */
+	{
+		char * progname = strdup(name);
+		_remext(progname);
+		name = progname;
+	}
+#endif
+#if (defined(_WIN32) && !defined(__CYGWIN__)) || defined(__OS2__)
 	lafe_progname = strrchr(name, '\\');
 	if (strrchr(name, '/') > lafe_progname)
 #endif
