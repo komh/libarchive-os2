@@ -2399,8 +2399,13 @@ tree_dir_next_posix(struct tree *t)
 			return (t->visit_type);
 		}
 #if defined(USE_READDIR_R)
+#if !defined(__OS2__)
 		dirent_size = offsetof(struct dirent, d_name) +
 		  t->filesystem_table[t->current->filesystem_id].name_max + 1;
+#else
+		/* On OS/2 kLIBC, d_name is not the last member of dirent. */
+		dirent_size = sizeof(struct dirent);
+#endif
 		if (t->dirent == NULL || t->dirent_allocated < dirent_size) {
 			free(t->dirent);
 			t->dirent = malloc(dirent_size);
