@@ -1465,6 +1465,13 @@ get_xfer_size(struct tree *t, int fd, const char *path)
 		t->current_filesystem->xfer_align =
 		    pathconf(path, _PC_REC_XFER_ALIGN);
 	}
+#if defined (__OS2__)
+	/*
+	 * _PC_REC_MAX_XFER_SIZE is too large about 2GB on OS/2 kLIBC. This causes
+	 * for memory allocation to fail. Set it _PC_REC_XFER_ALIGN.
+	 */
+	t->current_filesystem->max_xfer_size = t->current_filesystem->xfer_align;
+#endif
 	/* At least we need an alignment size. */
 	if (t->current_filesystem->xfer_align == -1)
 		return ((errno == EINVAL)?1:-1);
