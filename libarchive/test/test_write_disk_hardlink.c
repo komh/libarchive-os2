@@ -43,7 +43,7 @@ __FBSDID("$FreeBSD: head/lib/libarchive/test/test_write_disk_hardlink.c 201247 2
  */
 DEFINE_TEST(test_write_disk_hardlink)
 {
-#if defined(__HAIKU__)
+#if defined(__HAIKU__) || defined(__OS2__)
 	skipping("archive_write_disk_hardlink; hardlinks are not supported on bfs");
 #else
 	static const char data[]="abcdefghijklmnopqrstuvwxyz";
