@@ -319,7 +319,7 @@ AC_ARG_WITH([bz2lib],
 if test "x$with_bz2lib" != "xno"; then
   AC_CHECK_HEADERS([bzlib.h])
   case "$host_os" in
-    *mingw* | *cygwin* | *msys*)
+    *mingw* | *cygwin* | *msys* | *os2* )
       dnl AC_CHECK_LIB cannot be used on the Windows port of libbz2, therefore
 	  dnl use AC_LINK_IFELSE.
 	  AC_MSG_CHECKING([for BZ2_bzDecompressInit in -lbz2])
