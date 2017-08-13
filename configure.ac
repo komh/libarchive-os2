@@ -1181,4 +1181,8 @@ esac
 AC_CONFIG_COMMANDS([mkdirs],
 		   [mkdir -p libarchive/test tar/test cat/test cpio/test])
 
+case "$host_os" in
+  *os2* ) LDFLAGS="$LDFLAGS -Zbin-files" ;;
+esac
+
 AC_OUTPUT

@@ -78,6 +78,10 @@ __FBSDID("$FreeBSD: src/usr.bin/tar/read.c,v 1.40 2008/08/21 06:41:14 kientzle E
 #include "bsdtar.h"
 #include "err.h"
 
+#if defined(__OS2__)
+#define _O_BINARY O_BINARY
+#endif
+
 struct progress_data {
 	struct bsdtar *bsdtar;
 	struct archive *archive;
@@ -244,7 +248,7 @@ read_archive(struct bsdtar *bsdtar, char mode, struct archive *writer)
 #endif
 	}
 
-#if defined(_WIN32) && !defined(__CYGWIN__)
+#if (defined(_WIN32) && !defined(__CYGWIN__)) || defined(__OS2__)
 	if (mode == 'x' && (bsdtar->flags & OPTFLAG_STDOUT)) {
 		_setmode(1, _O_BINARY);
 	}
