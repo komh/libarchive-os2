@@ -93,6 +93,10 @@ __FBSDID("$FreeBSD$");
 #include <sys/ioctl.h>
 #endif
 
+#if defined(__OS2__)
+#include <InnoTekLIBC/backend.h>
+#endif
+
 #include "archive.h"
 #include "archive_string.h"
 #include "archive_entry.h"
@@ -2046,7 +2050,19 @@ tree_dup(int fd)
 		can_dupfd_cloexec = 0;
 	}
 #endif /* F_DUPFD_CLOEXEC */
+#if !defined(__OS2__)
 	new_fd = dup(fd);
+#else
+	{
+		/*
+		 * On OS/2 kLIBC, dup() does not work on a directory fd.
+		 */
+		char path[ 512 ];
+		if( __libc_Back_ioFHToPath(fd, path, sizeof(path)) == -1)
+			return (-1);
+		new_fd = open(path, O_RDONLY | O_CLOEXEC);
+	}
+#endif
 	__archive_ensure_cloexec_flag(new_fd);
 	return (new_fd);
 }
@@ -2370,7 +2386,7 @@ tree_dir_next_posix(struct tree *t)
 #else /* HAVE_FDOPENDIR */
 		if (tree_enter_working_dir(t) == 0) {
 			t->d = opendir(".");
-#if HAVE_DIRFD || defined(dirfd)
+#if (HAVE_DIRFD || defined(dirfd)) && !defined(__OS2__)
 			__archive_ensure_cloexec_flag(dirfd(t->d));
 #endif
 		}
