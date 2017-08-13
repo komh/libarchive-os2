@@ -165,4 +165,24 @@ exit_createnpipe:
 	return (-1);
 }
 
+/*
+ * wmemcmp() replacement
+ */
+int wmemcmp(const wchar_t *wcs1, const wchar_t *wcs2, size_t n)
+{
+	while (n) {
+		if (*wcs1 != *wcs2)
+			break;
+
+		wcs1++;
+		wcs2++;
+		n--;
+	}
+
+	if (n == 0)
+		return 0;
+
+	return *wcs1 - *wcs2;
+}
+
 #endif /* __OS2__ */

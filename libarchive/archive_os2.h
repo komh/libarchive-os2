@@ -38,6 +38,7 @@
 
 #include <fcntl.h>
 #include <io.h>
+#include <wchar.h>
 
 #define LA_PIPE_NAME_BASE "\\PIPE\\LIB\\ARCHIVE"
 #define LA_SEM_NAME_BASE "\\SEM32\\LIB\\ARCHIVE"
