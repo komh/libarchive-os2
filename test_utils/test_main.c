@@ -3537,7 +3537,7 @@ main(int argc, char **argv)
 		j++;
 	}
 	testprogdir[i] = '\0';
-#if defined(_WIN32) && !defined(__CYGWIN__)
+#if (defined(_WIN32) && !defined(__CYGWIN__)) || defined(__OS2__)
 	if (testprogdir[0] != '/' && testprogdir[0] != '\\' &&
 	    !(((testprogdir[0] >= 'a' && testprogdir[0] <= 'z') ||
 	       (testprogdir[0] >= 'A' && testprogdir[0] <= 'Z')) &&
