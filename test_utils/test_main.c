@@ -1348,6 +1348,18 @@ assertion_file_time(const char *file, int line,
 	default: fprintf(stderr, "INTERNAL: Bad type %c for file time", type);
 		exit(1);
 	}
+#if defined(__OS2__)
+	/*
+	 * On OS/2, file timestamps must be on or after 1980 in local time,
+	 * with an even number of seconds.
+	 */
+	{
+		static const long time0 = 315532800L;
+		if (t < time0 && !recent)
+			filet -= time0;
+		t -= t & 1;
+	}
+#endif
 #if defined(__FreeBSD__)
 	switch (type) {
 	case 'a': filet_nsec = st.st_atimespec.tv_nsec; break;
@@ -1903,6 +1915,16 @@ assertion_utimes(const char *file, int line,
 		at_nsec = (at_nsec / 1000) * 1000;
 #endif
 	}
+
+#if defined(__OS2__)
+	{
+		static const long time0 = 315532800L;//315620000L;
+		if (mt < time0)
+			mt += time0 - (mt & 1);
+		if (at < time0)
+			at += time0 - (at & 1);
+	}
+#endif
 
 	times[1].tv_sec = mt;
 	times[1].tv_usec = mt_nsec / 1000;

@@ -25,6 +25,20 @@
 #include "test.h"
 __FBSDID("$FreeBSD: head/lib/libarchive/test/test_write_disk.c 201247 2009-12-30 05:59:21Z kientzle $");
 
+#if defined(__OS2__)
+#define TIME0 315532800L
+#define OS2TIME(t) ((t) < TIME0 ? (t) + TIME0 - ((t) & 1 ) : (t))
+
+static void
+os2_archive_entry_set_mtime(struct archive_entry *entry, time_t t, long ns)
+{
+	archive_entry_set_mtime(entry, OS2TIME(t), ns);
+}
+
+#define archive_entry_set_mtime(entry, t, ns) \
+  os2_archive_entry_set_mtime(entry, t, ns)
+#endif
+
 #define UMASK 022
 /*
  * When comparing mode values, ignore high-order bits

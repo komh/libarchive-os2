@@ -29,6 +29,39 @@ __FBSDID("$FreeBSD$");
 #define __LIBARCHIVE_BUILD 1
 #include "archive_getdate.h"
 
+#if defined(__OS2__)
+#define TIME0 315532800L
+#define OS2TIME(t) ((t) < TIME0 ? (t) + TIME0 - ((t) & 1 ) : (t))
+
+static int
+os2_archive_match_include_time(struct archive *_a, int flag, time_t sec,
+    long nsec)
+{
+	return archive_match_include_time(_a, flag, OS2TIME(sec), nsec);
+}
+
+static void
+os2_archive_entry_set_mtime(struct archive_entry *entry, time_t t, long ns)
+{
+	archive_entry_set_mtime(entry, OS2TIME(t), ns);
+}
+
+static void
+os2_archive_entry_set_ctime(struct archive_entry *entry, time_t t, long ns)
+{
+	archive_entry_set_ctime(entry, OS2TIME(t), ns);
+}
+
+#define archive_match_include_time(_a, flag, sec, nsec) \
+  os2_archive_match_include_time(_a, flag, sec, nsec)
+
+#define archive_entry_set_mtime(entry, t, ns) \
+  os2_archive_entry_set_mtime(entry, t, ns)
+
+#define archive_entry_set_ctime(entry, t, ns) \
+  os2_archive_entry_set_ctime(entry, t, ns)
+#endif
+
 static void
 test_newer_time(void)
 {
@@ -52,26 +85,26 @@ test_newer_time(void)
 	failure("Both Its mtime and ctime should be excluded");
 	assertEqualInt(1, archive_match_time_excluded(m, ae));
 	assertEqualInt(1, archive_match_excluded(m, ae));
-	archive_entry_set_mtime(ae, 7879, 999);
-	archive_entry_set_ctime(ae, 7879, 999);
+	archive_entry_set_mtime(ae, 7878, 998);
+	archive_entry_set_ctime(ae, 7878, 998);
 	failure("Both Its mtime and ctime should be excluded");
 	assertEqualInt(1, archive_match_time_excluded(m, ae));
 	assertEqualInt(1, archive_match_excluded(m, ae));
 
-	archive_entry_set_mtime(ae, 7881, 0);
-	archive_entry_set_ctime(ae, 7881, 0);
+	archive_entry_set_mtime(ae, 7882, 0);
+	archive_entry_set_ctime(ae, 7882, 0);
 	failure("Both Its mtime and ctime should not be excluded");
 	assertEqualInt(0, archive_match_time_excluded(m, ae));
 	assertEqualInt(0, archive_match_excluded(m, ae));
 
-	archive_entry_set_mtime(ae, 7880, 1);
+	archive_entry_set_mtime(ae, 7880, 2);
 	archive_entry_set_ctime(ae, 7880, 0);
 	failure("Its mtime should be excluded");
 	assertEqualInt(1, archive_match_time_excluded(m, ae));
 	assertEqualInt(1, archive_match_excluded(m, ae));
 
 	archive_entry_set_mtime(ae, 7880, 0);
-	archive_entry_set_ctime(ae, 7880, 1);
+	archive_entry_set_ctime(ae, 7880, 2);
 	failure("Its ctime should be excluded");
 	assertEqualInt(1, archive_match_time_excluded(m, ae));
 	assertEqualInt(1, archive_match_excluded(m, ae));
@@ -1312,9 +1345,9 @@ DEFINE_TEST(test_archive_match_time)
 	 * new_mtime may be older than old_mtime.
 	 */
 	assertMakeFile("new_mtime", 0666, "new");
-	assertUtimes("new_mtime", 10002, 0, 10002, 0);
+	assertUtimes("new_mtime", 10004, 0, 10004, 0);
 	assertMakeFile("mid_mtime", 0666, "mid");
-	assertUtimes("mid_mtime", 10001, 0, 10001, 0);
+	assertUtimes("mid_mtime", 10002, 0, 10002, 0);
 	assertMakeFile("old_mtime", 0666, "old");
 	assertUtimes("old_mtime", 10000, 0, 10000, 0);
 
@@ -1324,11 +1357,11 @@ DEFINE_TEST(test_archive_match_time)
 	 * of new_ctime is older than both mid_ctime and old_ctime.
 	 */
 	assertMakeFile("old_ctime", 0666, "old");
-	assertUtimes("old_ctime", 10002, 0, 10002, 0);
+	assertUtimes("old_ctime", 10004, 0, 10004, 0);
 	assertEqualInt(0, stat("old_ctime", &st));
 	sleepUntilAfter(st.st_ctime);
 	assertMakeFile("mid_ctime", 0666, "mid");
-	assertUtimes("mid_ctime", 10001, 0, 10001, 0);
+	assertUtimes("mid_ctime", 10002, 0, 10002, 0);
 	assertEqualInt(0, stat("mid_ctime", &st));
 	sleepUntilAfter(st.st_ctime);
 	assertMakeFile("new_ctime", 0666, "new");
