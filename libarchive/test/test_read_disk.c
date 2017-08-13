@@ -61,7 +61,7 @@ uname_lookup(void *d, int64_t u)
 	return ("NOTFOO");
 }
 
-#if !defined(__CYGWIN__) && !defined(__HAIKU__)
+#if !defined(__CYGWIN__) && !defined(__HAIKU__) && !defined(__OS2__)
 /* We test GID lookup by looking up the name of group number zero and
  * checking it against the following list.  If your system uses a
  * different conventional name for group number zero, please extend
@@ -78,7 +78,7 @@ DEFINE_TEST(test_read_disk)
 {
 	struct archive *a;
 	int gmagic = 0x13579, umagic = 0x1234;
-#if !defined(__CYGWIN__) && !defined(__HAIKU__)
+#if !defined(__CYGWIN__) && !defined(__HAIKU__) && !defined(__OS2__)
 	const char *p;
 	size_t i;
 #endif
@@ -115,7 +115,7 @@ DEFINE_TEST(test_read_disk)
 	if (archive_read_disk_set_standard_lookup(a) != ARCHIVE_OK) {
 		skipping("standard uname/gname lookup");
 	} else {
-#if defined(__CYGWIN__) || defined(__HAIKU__)
+#if defined(__CYGWIN__) || defined(__HAIKU__) || defined(__OS2__)
 		/* Some platforms don't have predictable names for
 		 * uid=0, so we skip this part of the test. */
 		skipping("standard uname/gname lookup");

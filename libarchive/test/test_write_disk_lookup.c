@@ -113,7 +113,7 @@ DEFINE_TEST(test_write_disk_lookup)
 		if (id != 0)
 			id = archive_write_disk_gid(a, "root", 8);
 		failure("Unable to verify lookup of group #0");
-#if defined(_WIN32) && !defined(__CYGWIN__)
+#if (defined(_WIN32) && !defined(__CYGWIN__)) || defined(__OS2__)
 		/* Not yet implemented on Windows. */
 		assertEqualInt(8, id);
 #else
