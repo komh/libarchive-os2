@@ -249,6 +249,13 @@ libarchive_la_SOURCES+= \
 	libarchive/filter_fork_windows.c
 endif
 
+if INC_OS2_FILES
+libarchive_la_SOURCES+= \
+	libarchive/archive_os2.h \
+	libarchive/archive_os2.c \
+	libarchive/filter_fork_os2.c
+endif
+
 if INC_LINUX_ACL
 libarchive_la_SOURCES+= libarchive/archive_disk_acl_linux.c
 else

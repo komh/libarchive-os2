@@ -87,12 +87,15 @@ AC_CANONICAL_HOST
 dnl Compilation on mingw and Cygwin needs special Makefile rules
 inc_windows_files=no
 inc_cygwin_files=no
+inc_os2_files=no
 case "$host_os" in
   *mingw* ) inc_windows_files=yes ;;
   *cygwin* | *msys*) inc_cygwin_files=yes ;;
+  *os2* ) inc_os2_files=yes ;;
 esac
 AM_CONDITIONAL([INC_WINDOWS_FILES], [test $inc_windows_files = yes])
 AM_CONDITIONAL([INC_CYGWIN_FILES], [test $inc_cygwin_files = yes])
+AM_CONDITIONAL([INC_OS2_FILES], [test $inc_os2_files = yes])
 
 dnl Defines that are required for specific platforms (e.g. -D_POSIX_SOURCE, etc)
 PLATFORMCPPFLAGS=
