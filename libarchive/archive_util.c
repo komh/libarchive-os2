@@ -407,6 +407,9 @@ __archive_mktemp(const char *tmpdir)
 	fd = mkstemp(temp_name.s);
 	if (fd < 0)
 		goto exit_tmpfile;
+#ifdef __OS2__
+	setmode(fd, O_BINARY);
+#endif
 	__archive_ensure_cloexec_flag(fd);
 	unlink(temp_name.s);
 exit_tmpfile:
