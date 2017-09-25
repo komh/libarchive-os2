@@ -60,7 +60,9 @@ dist-hook:
 	rm -f `find $(distdir) -name '*.out'`
 	rm -f `find $(distdir) -name '*.core'`
 	-rm -f $(distdir)/*/Makefile $(distdir)/*/*/Makefile
+if !INC_OS2_FILES
 	cd $(distdir)/doc && /bin/sh update.sh
+endif
 
 #
 # Extra rules for cleanup
