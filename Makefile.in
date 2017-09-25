@@ -104,19 +104,24 @@ TESTS = libarchive_test$(EXEEXT) $(am__EXEEXT_4) $(am__EXEEXT_5) \
 @INC_WINDOWS_FILES_TRUE@	libarchive/archive_write_disk_windows.c \
 @INC_WINDOWS_FILES_TRUE@	libarchive/filter_fork_windows.c
 
-@INC_LINUX_ACL_TRUE@am__append_2 = libarchive/archive_disk_acl_linux.c
-@INC_LINUX_ACL_FALSE@@INC_SUNOS_ACL_TRUE@am__append_3 = libarchive/archive_disk_acl_sunos.c
-@INC_DARWIN_ACL_TRUE@@INC_LINUX_ACL_FALSE@@INC_SUNOS_ACL_FALSE@am__append_4 = libarchive/archive_disk_acl_darwin.c
-@INC_DARWIN_ACL_FALSE@@INC_FREEBSD_ACL_TRUE@@INC_LINUX_ACL_FALSE@@INC_SUNOS_ACL_FALSE@am__append_5 = libarchive/archive_disk_acl_freebsd.c
-@INC_WINDOWS_FILES_TRUE@am__append_6 = \
+@INC_OS2_FILES_TRUE@am__append_2 = \
+@INC_OS2_FILES_TRUE@	libarchive/archive_os2.h \
+@INC_OS2_FILES_TRUE@	libarchive/archive_os2.c \
+@INC_OS2_FILES_TRUE@	libarchive/filter_fork_os2.c
+
+@INC_LINUX_ACL_TRUE@am__append_3 = libarchive/archive_disk_acl_linux.c
+@INC_LINUX_ACL_FALSE@@INC_SUNOS_ACL_TRUE@am__append_4 = libarchive/archive_disk_acl_sunos.c
+@INC_DARWIN_ACL_TRUE@@INC_LINUX_ACL_FALSE@@INC_SUNOS_ACL_FALSE@am__append_5 = libarchive/archive_disk_acl_darwin.c
+@INC_DARWIN_ACL_FALSE@@INC_FREEBSD_ACL_TRUE@@INC_LINUX_ACL_FALSE@@INC_SUNOS_ACL_FALSE@am__append_6 = libarchive/archive_disk_acl_freebsd.c
+@INC_WINDOWS_FILES_TRUE@am__append_7 = \
 @INC_WINDOWS_FILES_TRUE@		tar/bsdtar_windows.h \
 @INC_WINDOWS_FILES_TRUE@		tar/bsdtar_windows.c
 
-@INC_WINDOWS_FILES_TRUE@am__append_7 = \
+@INC_WINDOWS_FILES_TRUE@am__append_8 = \
 @INC_WINDOWS_FILES_TRUE@		cpio/cpio_windows.h \
 @INC_WINDOWS_FILES_TRUE@		cpio/cpio_windows.c
 
-@INC_WINDOWS_FILES_TRUE@am__append_8 = 
+@INC_WINDOWS_FILES_TRUE@am__append_9 = 
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps =  \
@@ -307,7 +312,8 @@ am__libarchive_la_SOURCES_DIST = libarchive/archive_acl.c \
 	libarchive/archive_read_disk_windows.c \
 	libarchive/archive_windows.h libarchive/archive_windows.c \
 	libarchive/archive_write_disk_windows.c \
-	libarchive/filter_fork_windows.c \
+	libarchive/filter_fork_windows.c libarchive/archive_os2.h \
+	libarchive/archive_os2.c libarchive/filter_fork_os2.c \
 	libarchive/archive_disk_acl_linux.c \
 	libarchive/archive_disk_acl_sunos.c \
 	libarchive/archive_disk_acl_darwin.c \
@@ -319,11 +325,13 @@ am__dirstamp = $(am__leading_dot)dirstamp
 @INC_WINDOWS_FILES_TRUE@	libarchive/archive_windows.lo \
 @INC_WINDOWS_FILES_TRUE@	libarchive/archive_write_disk_windows.lo \
 @INC_WINDOWS_FILES_TRUE@	libarchive/filter_fork_windows.lo
-@INC_LINUX_ACL_TRUE@am__objects_2 =  \
+@INC_OS2_FILES_TRUE@am__objects_2 = libarchive/archive_os2.lo \
+@INC_OS2_FILES_TRUE@	libarchive/filter_fork_os2.lo
+@INC_LINUX_ACL_TRUE@am__objects_3 =  \
 @INC_LINUX_ACL_TRUE@	libarchive/archive_disk_acl_linux.lo
-@INC_LINUX_ACL_FALSE@@INC_SUNOS_ACL_TRUE@am__objects_3 = libarchive/archive_disk_acl_sunos.lo
-@INC_DARWIN_ACL_TRUE@@INC_LINUX_ACL_FALSE@@INC_SUNOS_ACL_FALSE@am__objects_4 = libarchive/archive_disk_acl_darwin.lo
-@INC_DARWIN_ACL_FALSE@@INC_FREEBSD_ACL_TRUE@@INC_LINUX_ACL_FALSE@@INC_SUNOS_ACL_FALSE@am__objects_5 = libarchive/archive_disk_acl_freebsd.lo
+@INC_LINUX_ACL_FALSE@@INC_SUNOS_ACL_TRUE@am__objects_4 = libarchive/archive_disk_acl_sunos.lo
+@INC_DARWIN_ACL_TRUE@@INC_LINUX_ACL_FALSE@@INC_SUNOS_ACL_FALSE@am__objects_5 = libarchive/archive_disk_acl_darwin.lo
+@INC_DARWIN_ACL_FALSE@@INC_FREEBSD_ACL_TRUE@@INC_LINUX_ACL_FALSE@@INC_SUNOS_ACL_FALSE@am__objects_6 = libarchive/archive_disk_acl_freebsd.lo
 am_libarchive_la_OBJECTS = libarchive/archive_acl.lo \
 	libarchive/archive_check_magic.lo \
 	libarchive/archive_cmdline.lo libarchive/archive_cryptor.lo \
@@ -429,7 +437,7 @@ am_libarchive_la_OBJECTS = libarchive/archive_acl.lo \
 	libarchive/archive_write_set_passphrase.lo \
 	libarchive/filter_fork_posix.lo libarchive/xxhash.lo \
 	$(am__objects_1) $(am__objects_2) $(am__objects_3) \
-	$(am__objects_4) $(am__objects_5)
+	$(am__objects_4) $(am__objects_5) $(am__objects_6)
 libarchive_la_OBJECTS = $(am_libarchive_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -450,16 +458,16 @@ libarchive_fe_la_OBJECTS = $(am_libarchive_fe_la_OBJECTS)
 @BUILD_BSDCPIO_TRUE@am__EXEEXT_5 = bsdcpio_test$(EXEEXT)
 @BUILD_BSDCAT_TRUE@am__EXEEXT_6 = bsdcat_test$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
-am__objects_6 =
+am__objects_7 =
 am_bsdcat_OBJECTS = cat/bsdcat-bsdcat.$(OBJEXT) \
-	cat/bsdcat-cmdline.$(OBJEXT) $(am__objects_6)
+	cat/bsdcat-cmdline.$(OBJEXT) $(am__objects_7)
 bsdcat_OBJECTS = $(am_bsdcat_OBJECTS)
 bsdcat_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(bsdcat_LDFLAGS) $(LDFLAGS) -o $@
-am__objects_7 = test_utils/bsdcat_test-test_utils.$(OBJEXT) \
+am__objects_8 = test_utils/bsdcat_test-test_utils.$(OBJEXT) \
 	test_utils/bsdcat_test-test_main.$(OBJEXT)
-am_bsdcat_test_OBJECTS = $(am__objects_7) \
+am_bsdcat_test_OBJECTS = $(am__objects_8) \
 	cat/test/bsdcat_test-test_0.$(OBJEXT) \
 	cat/test/bsdcat_test-test_empty_gz.$(OBJEXT) \
 	cat/test/bsdcat_test-test_empty_lz4.$(OBJEXT) \
@@ -479,17 +487,17 @@ bsdcat_test_OBJECTS = $(am_bsdcat_test_OBJECTS)
 bsdcat_test_DEPENDENCIES = libarchive_fe.la
 am__bsdcpio_SOURCES_DIST = cpio/cmdline.c cpio/cpio.c cpio/cpio.h \
 	cpio/cpio_platform.h cpio/cpio_windows.h cpio/cpio_windows.c
-@INC_WINDOWS_FILES_TRUE@am__objects_8 =  \
+@INC_WINDOWS_FILES_TRUE@am__objects_9 =  \
 @INC_WINDOWS_FILES_TRUE@	cpio/bsdcpio-cpio_windows.$(OBJEXT)
 am_bsdcpio_OBJECTS = cpio/bsdcpio-cmdline.$(OBJEXT) \
-	cpio/bsdcpio-cpio.$(OBJEXT) $(am__objects_8)
+	cpio/bsdcpio-cpio.$(OBJEXT) $(am__objects_9)
 bsdcpio_OBJECTS = $(am_bsdcpio_OBJECTS)
 bsdcpio_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(bsdcpio_LDFLAGS) $(LDFLAGS) -o $@
-am__objects_9 = test_utils/bsdcpio_test-test_utils.$(OBJEXT) \
+am__objects_10 = test_utils/bsdcpio_test-test_utils.$(OBJEXT) \
 	test_utils/bsdcpio_test-test_main.$(OBJEXT)
-am_bsdcpio_test_OBJECTS = $(am__objects_9) \
+am_bsdcpio_test_OBJECTS = $(am__objects_10) \
 	cpio/bsdcpio_test-cmdline.$(OBJEXT) \
 	cpio/test/bsdcpio_test-test_0.$(OBJEXT) \
 	cpio/test/bsdcpio_test-test_basic.$(OBJEXT) \
@@ -543,20 +551,20 @@ am__bsdtar_SOURCES_DIST = tar/bsdtar.c tar/bsdtar.h \
 	tar/bsdtar_platform.h tar/cmdline.c tar/creation_set.c \
 	tar/read.c tar/subst.c tar/util.c tar/write.c \
 	tar/bsdtar_windows.h tar/bsdtar_windows.c
-@INC_WINDOWS_FILES_TRUE@am__objects_10 =  \
+@INC_WINDOWS_FILES_TRUE@am__objects_11 =  \
 @INC_WINDOWS_FILES_TRUE@	tar/bsdtar-bsdtar_windows.$(OBJEXT)
 am_bsdtar_OBJECTS = tar/bsdtar-bsdtar.$(OBJEXT) \
 	tar/bsdtar-cmdline.$(OBJEXT) tar/bsdtar-creation_set.$(OBJEXT) \
 	tar/bsdtar-read.$(OBJEXT) tar/bsdtar-subst.$(OBJEXT) \
 	tar/bsdtar-util.$(OBJEXT) tar/bsdtar-write.$(OBJEXT) \
-	$(am__objects_10)
+	$(am__objects_11)
 bsdtar_OBJECTS = $(am_bsdtar_OBJECTS)
 bsdtar_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(bsdtar_LDFLAGS) $(LDFLAGS) -o $@
-am__objects_11 = test_utils/bsdtar_test-test_utils.$(OBJEXT) \
+am__objects_12 = test_utils/bsdtar_test-test_utils.$(OBJEXT) \
 	test_utils/bsdtar_test-test_main.$(OBJEXT)
-am_bsdtar_test_OBJECTS = $(am__objects_11) \
+am_bsdtar_test_OBJECTS = $(am__objects_12) \
 	tar/test/bsdtar_test-test_0.$(OBJEXT) \
 	tar/test/bsdtar_test-test_basic.$(OBJEXT) \
 	tar/test/bsdtar_test-test_copy.$(OBJEXT) \
@@ -751,7 +759,8 @@ am__libarchive_test_SOURCES_DIST = libarchive/archive_acl.c \
 	libarchive/archive_read_disk_windows.c \
 	libarchive/archive_windows.h libarchive/archive_windows.c \
 	libarchive/archive_write_disk_windows.c \
-	libarchive/filter_fork_windows.c \
+	libarchive/filter_fork_windows.c libarchive/archive_os2.h \
+	libarchive/archive_os2.c libarchive/filter_fork_os2.c \
 	libarchive/archive_disk_acl_linux.c \
 	libarchive/archive_disk_acl_sunos.c \
 	libarchive/archive_disk_acl_darwin.c \
@@ -1022,16 +1031,18 @@ am__libarchive_test_SOURCES_DIST = libarchive/archive_acl.c \
 	libarchive/test/test_write_read_format_zip.c \
 	libarchive/test/test_xattr_platform.c \
 	libarchive/test/test_zip_filename_encoding.c
-@INC_WINDOWS_FILES_TRUE@am__objects_12 = libarchive/libarchive_test-archive_entry_copy_bhfi.$(OBJEXT) \
+@INC_WINDOWS_FILES_TRUE@am__objects_13 = libarchive/libarchive_test-archive_entry_copy_bhfi.$(OBJEXT) \
 @INC_WINDOWS_FILES_TRUE@	libarchive/libarchive_test-archive_read_disk_windows.$(OBJEXT) \
 @INC_WINDOWS_FILES_TRUE@	libarchive/libarchive_test-archive_windows.$(OBJEXT) \
 @INC_WINDOWS_FILES_TRUE@	libarchive/libarchive_test-archive_write_disk_windows.$(OBJEXT) \
 @INC_WINDOWS_FILES_TRUE@	libarchive/libarchive_test-filter_fork_windows.$(OBJEXT)
-@INC_LINUX_ACL_TRUE@am__objects_13 = libarchive/libarchive_test-archive_disk_acl_linux.$(OBJEXT)
-@INC_LINUX_ACL_FALSE@@INC_SUNOS_ACL_TRUE@am__objects_14 = libarchive/libarchive_test-archive_disk_acl_sunos.$(OBJEXT)
-@INC_DARWIN_ACL_TRUE@@INC_LINUX_ACL_FALSE@@INC_SUNOS_ACL_FALSE@am__objects_15 = libarchive/libarchive_test-archive_disk_acl_darwin.$(OBJEXT)
-@INC_DARWIN_ACL_FALSE@@INC_FREEBSD_ACL_TRUE@@INC_LINUX_ACL_FALSE@@INC_SUNOS_ACL_FALSE@am__objects_16 = libarchive/libarchive_test-archive_disk_acl_freebsd.$(OBJEXT)
-am__objects_17 = libarchive/libarchive_test-archive_acl.$(OBJEXT) \
+@INC_OS2_FILES_TRUE@am__objects_14 = libarchive/libarchive_test-archive_os2.$(OBJEXT) \
+@INC_OS2_FILES_TRUE@	libarchive/libarchive_test-filter_fork_os2.$(OBJEXT)
+@INC_LINUX_ACL_TRUE@am__objects_15 = libarchive/libarchive_test-archive_disk_acl_linux.$(OBJEXT)
+@INC_LINUX_ACL_FALSE@@INC_SUNOS_ACL_TRUE@am__objects_16 = libarchive/libarchive_test-archive_disk_acl_sunos.$(OBJEXT)
+@INC_DARWIN_ACL_TRUE@@INC_LINUX_ACL_FALSE@@INC_SUNOS_ACL_FALSE@am__objects_17 = libarchive/libarchive_test-archive_disk_acl_darwin.$(OBJEXT)
+@INC_DARWIN_ACL_FALSE@@INC_FREEBSD_ACL_TRUE@@INC_LINUX_ACL_FALSE@@INC_SUNOS_ACL_FALSE@am__objects_18 = libarchive/libarchive_test-archive_disk_acl_freebsd.$(OBJEXT)
+am__objects_19 = libarchive/libarchive_test-archive_acl.$(OBJEXT) \
 	libarchive/libarchive_test-archive_check_magic.$(OBJEXT) \
 	libarchive/libarchive_test-archive_cmdline.$(OBJEXT) \
 	libarchive/libarchive_test-archive_cryptor.$(OBJEXT) \
@@ -1143,12 +1154,12 @@ am__objects_17 = libarchive/libarchive_test-archive_acl.$(OBJEXT) \
 	libarchive/libarchive_test-archive_write_set_options.$(OBJEXT) \
 	libarchive/libarchive_test-archive_write_set_passphrase.$(OBJEXT) \
 	libarchive/libarchive_test-filter_fork_posix.$(OBJEXT) \
-	libarchive/libarchive_test-xxhash.$(OBJEXT) $(am__objects_12) \
-	$(am__objects_13) $(am__objects_14) $(am__objects_15) \
-	$(am__objects_16)
-am__objects_18 = test_utils/libarchive_test-test_utils.$(OBJEXT) \
+	libarchive/libarchive_test-xxhash.$(OBJEXT) $(am__objects_13) \
+	$(am__objects_14) $(am__objects_15) $(am__objects_16) \
+	$(am__objects_17) $(am__objects_18)
+am__objects_20 = test_utils/libarchive_test-test_utils.$(OBJEXT) \
 	test_utils/libarchive_test-test_main.$(OBJEXT)
-am_libarchive_test_OBJECTS = $(am__objects_17) $(am__objects_18) \
+am_libarchive_test_OBJECTS = $(am__objects_19) $(am__objects_20) \
 	libarchive/test/libarchive_test-read_open_memory.$(OBJEXT) \
 	libarchive/test/libarchive_test-test_acl_nfs4.$(OBJEXT) \
 	libarchive/test/libarchive_test-test_acl_pax.$(OBJEXT) \
@@ -1824,7 +1835,6 @@ pdfdir = @pdfdir@
 prefix = @prefix@
 program_transform_name = @program_transform_name@
 psdir = @psdir@
-runstatedir = @runstatedir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
@@ -2020,7 +2030,8 @@ libarchive_la_SOURCES = libarchive/archive_acl.c \
 	libarchive/archive_xxhash.h libarchive/config_freebsd.h \
 	libarchive/filter_fork_posix.c libarchive/filter_fork.h \
 	libarchive/xxhash.c $(am__append_1) $(am__append_2) \
-	$(am__append_3) $(am__append_4) $(am__append_5)
+	$(am__append_3) $(am__append_4) $(am__append_5) \
+	$(am__append_6)
 
 # -no-undefined marks that libarchive doesn't rely on symbols
 # defined in the application.  This is mandatory for cygwin.
@@ -2646,7 +2657,7 @@ libarchive_fe_la_CPPFLAGS = -I$(top_srcdir)/libarchive
 #
 bsdtar_SOURCES = tar/bsdtar.c tar/bsdtar.h tar/bsdtar_platform.h \
 	tar/cmdline.c tar/creation_set.c tar/read.c tar/subst.c \
-	tar/util.c tar/write.c $(am__append_6)
+	tar/util.c tar/write.c $(am__append_7)
 bsdtar_DEPENDENCIES = libarchive.la libarchive_fe.la
 @STATIC_BSDTAR_FALSE@bsdtar_ldstatic = 
 @STATIC_BSDTAR_TRUE@bsdtar_ldstatic = -static
@@ -2774,7 +2785,7 @@ bsdtar_test_EXTRA_DIST = \
 #
 #
 bsdcpio_SOURCES = cpio/cmdline.c cpio/cpio.c cpio/cpio.h \
-	cpio/cpio_platform.h $(am__append_7)
+	cpio/cpio_platform.h $(am__append_8)
 bsdcpio_DEPENDENCIES = libarchive.la libarchive_fe.la
 @STATIC_BSDCPIO_FALSE@bsdcpio_ldstatic = 
 @STATIC_BSDCPIO_TRUE@bsdcpio_ldstatic = -static
@@ -2898,7 +2909,7 @@ bsdcpio_test_EXTRA_DIST = \
 #
 #
 bsdcat_SOURCES = cat/bsdcat.c cat/bsdcat.h cat/bsdcat_platform.h \
-	cat/cmdline.c $(am__append_8)
+	cat/cmdline.c $(am__append_9)
 bsdcat_DEPENDENCIES = libarchive.la libarchive_fe.la
 @STATIC_BSDCAT_FALSE@bsdcat_ldstatic = 
 @STATIC_BSDCAT_TRUE@bsdcat_ldstatic = -static
@@ -3368,6 +3379,10 @@ libarchive/archive_windows.lo: libarchive/$(am__dirstamp) \
 libarchive/archive_write_disk_windows.lo: libarchive/$(am__dirstamp) \
 	libarchive/$(DEPDIR)/$(am__dirstamp)
 libarchive/filter_fork_windows.lo: libarchive/$(am__dirstamp) \
+	libarchive/$(DEPDIR)/$(am__dirstamp)
+libarchive/archive_os2.lo: libarchive/$(am__dirstamp) \
+	libarchive/$(DEPDIR)/$(am__dirstamp)
+libarchive/filter_fork_os2.lo: libarchive/$(am__dirstamp) \
 	libarchive/$(DEPDIR)/$(am__dirstamp)
 libarchive/archive_disk_acl_linux.lo: libarchive/$(am__dirstamp) \
 	libarchive/$(DEPDIR)/$(am__dirstamp)
@@ -4161,6 +4176,12 @@ libarchive/libarchive_test-archive_write_disk_windows.$(OBJEXT):  \
 	libarchive/$(am__dirstamp) \
 	libarchive/$(DEPDIR)/$(am__dirstamp)
 libarchive/libarchive_test-filter_fork_windows.$(OBJEXT):  \
+	libarchive/$(am__dirstamp) \
+	libarchive/$(DEPDIR)/$(am__dirstamp)
+libarchive/libarchive_test-archive_os2.$(OBJEXT):  \
+	libarchive/$(am__dirstamp) \
+	libarchive/$(DEPDIR)/$(am__dirstamp)
+libarchive/libarchive_test-filter_fork_os2.$(OBJEXT):  \
 	libarchive/$(am__dirstamp) \
 	libarchive/$(DEPDIR)/$(am__dirstamp)
 libarchive/libarchive_test-archive_disk_acl_linux.$(OBJEXT):  \
@@ -5093,6 +5114,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/archive_hmac.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/archive_match.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/archive_options.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/archive_os2.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/archive_pack_dev.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/archive_pathmatch.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/archive_ppmd7.Plo@am__quote@
@@ -5191,6 +5213,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/archive_write_set_format_zip.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/archive_write_set_options.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/archive_write_set_passphrase.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/filter_fork_os2.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/filter_fork_posix.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/filter_fork_windows.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/libarchive_test-archive_acl.Po@am__quote@
@@ -5214,6 +5237,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/libarchive_test-archive_hmac.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/libarchive_test-archive_match.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/libarchive_test-archive_options.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/libarchive_test-archive_os2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/libarchive_test-archive_pack_dev.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/libarchive_test-archive_pathmatch.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/libarchive_test-archive_ppmd7.Po@am__quote@
@@ -5312,6 +5336,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/libarchive_test-archive_write_set_format_zip.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/libarchive_test-archive_write_set_options.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/libarchive_test-archive_write_set_passphrase.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/libarchive_test-filter_fork_os2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/libarchive_test-filter_fork_posix.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/libarchive_test-filter_fork_windows.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libarchive/$(DEPDIR)/libarchive_test-xxhash.Po@am__quote@
@@ -9331,6 +9356,34 @@ libarchive/libarchive_test-filter_fork_windows.obj: libarchive/filter_fork_windo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libarchive/filter_fork_windows.c' object='libarchive/libarchive_test-filter_fork_windows.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libarchive_test_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libarchive/libarchive_test-filter_fork_windows.obj `if test -f 'libarchive/filter_fork_windows.c'; then $(CYGPATH_W) 'libarchive/filter_fork_windows.c'; else $(CYGPATH_W) '$(srcdir)/libarchive/filter_fork_windows.c'; fi`
+
+libarchive/libarchive_test-archive_os2.o: libarchive/archive_os2.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libarchive_test_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libarchive/libarchive_test-archive_os2.o -MD -MP -MF libarchive/$(DEPDIR)/libarchive_test-archive_os2.Tpo -c -o libarchive/libarchive_test-archive_os2.o `test -f 'libarchive/archive_os2.c' || echo '$(srcdir)/'`libarchive/archive_os2.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) libarchive/$(DEPDIR)/libarchive_test-archive_os2.Tpo libarchive/$(DEPDIR)/libarchive_test-archive_os2.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libarchive/archive_os2.c' object='libarchive/libarchive_test-archive_os2.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libarchive_test_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libarchive/libarchive_test-archive_os2.o `test -f 'libarchive/archive_os2.c' || echo '$(srcdir)/'`libarchive/archive_os2.c
+
+libarchive/libarchive_test-archive_os2.obj: libarchive/archive_os2.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libarchive_test_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libarchive/libarchive_test-archive_os2.obj -MD -MP -MF libarchive/$(DEPDIR)/libarchive_test-archive_os2.Tpo -c -o libarchive/libarchive_test-archive_os2.obj `if test -f 'libarchive/archive_os2.c'; then $(CYGPATH_W) 'libarchive/archive_os2.c'; else $(CYGPATH_W) '$(srcdir)/libarchive/archive_os2.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) libarchive/$(DEPDIR)/libarchive_test-archive_os2.Tpo libarchive/$(DEPDIR)/libarchive_test-archive_os2.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libarchive/archive_os2.c' object='libarchive/libarchive_test-archive_os2.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libarchive_test_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libarchive/libarchive_test-archive_os2.obj `if test -f 'libarchive/archive_os2.c'; then $(CYGPATH_W) 'libarchive/archive_os2.c'; else $(CYGPATH_W) '$(srcdir)/libarchive/archive_os2.c'; fi`
+
+libarchive/libarchive_test-filter_fork_os2.o: libarchive/filter_fork_os2.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libarchive_test_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libarchive/libarchive_test-filter_fork_os2.o -MD -MP -MF libarchive/$(DEPDIR)/libarchive_test-filter_fork_os2.Tpo -c -o libarchive/libarchive_test-filter_fork_os2.o `test -f 'libarchive/filter_fork_os2.c' || echo '$(srcdir)/'`libarchive/filter_fork_os2.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) libarchive/$(DEPDIR)/libarchive_test-filter_fork_os2.Tpo libarchive/$(DEPDIR)/libarchive_test-filter_fork_os2.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libarchive/filter_fork_os2.c' object='libarchive/libarchive_test-filter_fork_os2.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libarchive_test_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libarchive/libarchive_test-filter_fork_os2.o `test -f 'libarchive/filter_fork_os2.c' || echo '$(srcdir)/'`libarchive/filter_fork_os2.c
+
+libarchive/libarchive_test-filter_fork_os2.obj: libarchive/filter_fork_os2.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libarchive_test_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libarchive/libarchive_test-filter_fork_os2.obj -MD -MP -MF libarchive/$(DEPDIR)/libarchive_test-filter_fork_os2.Tpo -c -o libarchive/libarchive_test-filter_fork_os2.obj `if test -f 'libarchive/filter_fork_os2.c'; then $(CYGPATH_W) 'libarchive/filter_fork_os2.c'; else $(CYGPATH_W) '$(srcdir)/libarchive/filter_fork_os2.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) libarchive/$(DEPDIR)/libarchive_test-filter_fork_os2.Tpo libarchive/$(DEPDIR)/libarchive_test-filter_fork_os2.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libarchive/filter_fork_os2.c' object='libarchive/libarchive_test-filter_fork_os2.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libarchive_test_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libarchive/libarchive_test-filter_fork_os2.obj `if test -f 'libarchive/filter_fork_os2.c'; then $(CYGPATH_W) 'libarchive/filter_fork_os2.c'; else $(CYGPATH_W) '$(srcdir)/libarchive/filter_fork_os2.c'; fi`
 
 libarchive/libarchive_test-archive_disk_acl_linux.o: libarchive/archive_disk_acl_linux.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libarchive_test_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libarchive/libarchive_test-archive_disk_acl_linux.o -MD -MP -MF libarchive/$(DEPDIR)/libarchive_test-archive_disk_acl_linux.Tpo -c -o libarchive/libarchive_test-archive_disk_acl_linux.o `test -f 'libarchive/archive_disk_acl_linux.c' || echo '$(srcdir)/'`libarchive/archive_disk_acl_linux.c
@@ -13903,7 +13956,7 @@ dist-hook:
 	rm -f `find $(distdir) -name '*.out'`
 	rm -f `find $(distdir) -name '*.core'`
 	-rm -f $(distdir)/*/Makefile $(distdir)/*/*/Makefile
-	cd $(distdir)/doc && /bin/sh update.sh
+@INC_OS2_FILES_FALSE@	cd $(distdir)/doc && /bin/sh update.sh
 
 distclean-local:
 	-rm -rf .ref
